@@ -1,5 +1,5 @@
 
-#VizWiz - Frequency Spectrum Analyzer
+# VizWiz - Frequency Spectrum Analyzer
 
 
 A fast fourier transform based Frequency Spectrum Analyzer that displays the
@@ -15,14 +15,14 @@ wav files, labeled accordingly, and a file "IncFreqDecDBFS.wav" which is the
 sine tones concatenated from lowest to highest frequency. (you won't be able
 to hear maybe half of them)
 
-##USAGE: python3 vizwiz.py
+## USAGE: python3 vizwiz.py
 	NOTES!:
 		- hit ESC to exit animation!
 		- only takes .wav files!
 		- .wav filenames cannot have spaces!
 		- see below for more
 
-##DEPENDENCIES: openGL, GLUT, g++, gcc, python3, numpy, tkinter
+## DEPENDENCIES: openGL, GLUT, g++, gcc, python3, numpy, tkinter
 	openGL:
 		- OS X already has development files for OpenGL, to access them we use
 		compiler flag -framework openGL
@@ -57,8 +57,8 @@ to hear maybe half of them)
 		- "swiss army knife of audio" - you probably already have it, if not
 					apt-get install sox
 
-##DIRECTIONS:
-	###Execution details:
+## DIRECTIONS:
+	### Execution details:
 		- There is one entry point to the program, the python file 'vizwiz.py'. It
 		can be ran from terminal with 'python3 vizwiz.py', call it as 'python3
 		vizwiz.py dev' to get error reporting. (you may see a pipe error if you do
@@ -70,7 +70,7 @@ to hear maybe half of them)
 		click the "Play" button to begin displaying the animation and playing the
 		audio.
 
-	###Acquiring Dependencies:
+	### Acquiring Dependencies:
 
 		OSX------------------OSX---------------------OSX-------------------OSX------
 		- The easiest way would probably be to enter the following commands in the
@@ -107,8 +107,8 @@ to hear maybe half of them)
 		UBUNTU--------------UBUNTU-------------------UBUNTU-------------UBUNTU------
 
 
-##FFT Program Operation Description:
-	###The Fast Fourier Transform in General:
+## FFT Program Operation Description:
+	### The Fast Fourier Transform in General:
 		- The fft is an O(nlogn) time complexity algorithm for computing the discrete
 		Fourier transform (the discrete analog of the continous Fourier Transform)
 		which utilizes the the collapsing nature of the roots of unity to divide
@@ -122,17 +122,17 @@ to hear maybe half of them)
 		(samplerate of the file/2)) This is fine as the human audible range is
 		only 20Hz-20kHz and wav files are encoded at 41.5kHz-48kHz
 
-    ###Getting the samples:
+    ### Getting the samples:
 		- we use the python standard library module wave to read the metadata and
 		samples from the .wav files
 
-	###Dealing with channels:
+	### Dealing with channels:
 		- if the file only has one channel, we simply pass it along to the next step.
 		But if it has two channels, we can add them pre-fft (which due to the
 		linearity of the Fourier transform is the same as adding them after, just
 		with much less fft computation)
 
-	###High Pass Filtering:
+	### High Pass Filtering:
 		- Because of how the fft is defined, the value in output bin 0 will be the
 		average frequncy of the entire signal. To avoid this data from "corrupting"
 		our output, (by artificially increasing values closer to 0) what we want to
@@ -146,7 +146,7 @@ to hear maybe half of them)
 		sample, and while that did work, the effects are more prominent with the
 		fft->ifft>fft method (at least in our experience)
 
-	###Windowing:
+	### Windowing:
 		- The fourier transform, being something which decomposes data into it's
 		periodic elements, assumes that the input it's being given is periodic. This
 		can present a problem if the shape of the input curve (the measure of
@@ -168,14 +168,14 @@ to hear maybe half of them)
 		We apply the window by multiplying our high pass filtered signal with it,
 		term by term.
 
-	###The "Actual" FFT:
+	### The "Actual" FFT:
 		- Now that our data is prepared, we fft it to decompose our time chunk into
 		a frequency chunk. What we get out is a 512 array of complex numbers. At
 		this point we take the magnitudes of those vectors in the complex plane,
 		which give us our frequency bin amplitudes on a scale of the width of the
 		original samples (in our case 16 bit).
 
-	###Adjusting for Windowing:
+	### Adjusting for Windowing:
 		- Windowing may magically fix our discontinuity problem,but it generates
 		several of it's own. We did, after all, transform our data quite heavily.
 		What we did is reduce the "gain" of the signal, and the amount of gain we've
@@ -191,14 +191,14 @@ to hear maybe half of them)
 		*note: this is kind of an oversimplification in ways I don't yet fully
 		understand. see TODO/WISHLIST > Multiple Overlapped FFT's section below.
 
-	###Converting to DBFS:
+	### Converting to DBFS:
 		- To convert to DBFS, we scale the amplitudes back by dividing them by our
 		dbfsref constant (32768, the max value on our scale) and then take
 		20log_10() of that in order to end up with
 
 
-##Display Program Operation Description:
-	###About OpenGL and GLUT/freeGLUT:
+## Display Program Operation Description:
+	### About OpenGL and GLUT/freeGLUT:
 		-On OS X, without homebrew, it's very tricky to install freeGLUT, because of
 		this. Luckily OS X comes with regular GLUT, but its old at this point, as
 		some licensing nonsense, its outdated. So you may see some deprecated
@@ -206,36 +206,36 @@ to hear maybe half of them)
 		regular GLUT there is no way to gracefully exit the main loop, which is why
 		we have pipe troubles (see known bugs section)
 
-	###Creating Vertices:
+	### Creating Vertices:
 		-We draw the squares by defining a small unit in both the x and y directions
 		which is the size of the gap between the cells. (like 1/16 of 1/64 of the
 		screen) Then the cells are just the remaining proportion of the larger
 		fraction of the cell. (14/16 of 1/64, each way)
 
-	###Defining Colors:
+	### Defining Colors:
 		- We're using RGB floats, as they're valued from 0 to 1 we create each rows
 		color as a slight variation on the previous. Both this and the vertex
 		definition step are done ahead of entering the render loop.
 
-	###Audio:
+	### Audio:
 		- to avoid more dependencies we're using command line utilities to play the
 		audio. On mac we use "afplay" and on ubuntu we use the "play" command from
 		sox, we fork the process that runs it right before entering the mainloop
 
-	###Callback Functions:
+	### Callback Functions:
 		- We set up callback function, to tell the openGL context (basically a giant
 		state machine), what to do when certain things happen, for example a key
 		press (which we use to check if 'escape' has been hit) but also for things
 		like rendering and displaying, and the process that runs when there are no
 		events to process
 
-	###Mainloop:
+	### Mainloop:
 		- The main loop (through various callback functions) calls in whatever order
 		it can to update the buffer index, and render the squares by cycling over
 		both the array of vertices and colors and turning each cell "on" or "off" by
 		setting it to gray or it's color array value.
 
-##GUI Operation Description:
+## GUI Operation Description:
 	- It's an OOP tkinter GUI.It is very simple and tkinter is well documented. I
 	won't go into too much detail about it here. It uses buttons with lamda
 	callback function to register events, and updates it's state accordingly.
@@ -254,45 +254,45 @@ to hear maybe half of them)
 	fft process a small head start.
 
 
-##KNOWN BUGS:
-	###Spaces in .wav Filenames:
+## KNOWN BUGS:
+	### Spaces in .wav Filenames:
 		- as noted above, the wav files cannot contain spaces. I'm pretty sure that
 		its to do with how we are playing back the audio (using a command line
 		utility native to OS X) and we would need to perform string manipulations on
 		the filename in order for it to be executed correctly. This would not be
 		that hard to do, but we've never gotten around to it.
 
-	###Anomalous blip around 18 Khz:
+	### Anomalous blip around 18 Khz:
 	 - something you may notice, if you play several songs, is a small peak
 	 around 18 Khz (3/4 across the screen). I have no idea about this one, I think
 	 honestly it may be present in the data but I have yet to confirm against an
 	 outside source
 
-	###Pipe error:
+	### Pipe error:
 		- because of how the program exits, sometimes it produces a SIGPIPE error
 		(errno 32). Even thought it is expected, caught and handled, python still
 		prints it to stderr as being ignored as it considers it an "unusual event",
 		there is no way to turn this off, so we've resulted to more primitive means.
 
-	###GUI filedialog glitch:
+	### GUI filedialog glitch:
 		- if you hit the exit button the GUI before the filedialog has fully opened
 		(click it while it is opening, it is kind of hard to do if your computer
 		isn;t slow) then it crashes instead of exiting gracefully. Unsure why,
 		might be beyond our control.
 
-##TODO/WISHLIST:
-	###Multiple Overlapped FFT's:
+## TODO/WISHLIST:
+	### Multiple Overlapped FFT's:
 		- this would help with our time resolution, as well as let us do more
 		precise windowing with asymmetric windows (as long as their overlaps sum
 		to a constant over a window length).
 
-	###Units:
+	### Units:
 		-It would be really great it we could display the frequency values below
 		the bins and the DBFS level up the side, especially because it would
 		allow verification of data without directly reading the values int the
 		file
 
-	###OpenGL 3/4 SDL:
+	### OpenGL 3/4 SDL:
 		- this was the original dream, and still something I'd really like to do.
 		definitely beyond the scope of this project (or at least beyond the scope
 		of us in the timeframe of this project) While I am a little disheartened
@@ -301,13 +301,13 @@ to hear maybe half of them)
 		even if we don't move into the core profile of OpenGL we could probably
 		switch from GLUT to SDL for a little more control and
 
-	###More Options in GUI:
+	### More Options in GUI:
 		- I'd like for overlap percentage, window type, and color parameters to
 		be selectable from the GUI
 
-	###Port to using FFTW instead of Numpy:
+	### Port to using FFTW instead of Numpy:
 		- Now that we're much more familiar with fourier analysis and digital
 		signal processing, I feel I could effectively wield a tool like fftw,
 		which I was not sure of when we started this project.
 
-	###Clean up inter process communication and global variable dependencies
+	### Clean up inter process communication and global variable dependencies
