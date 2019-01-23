@@ -64,7 +64,7 @@ can be ran from terminal with 'python3 vizwiz.py', call it as 'python3
 vizwiz.py dev' to get error reporting. (you may see a pipe error if you do
 this, as well as many deprecated warnings, see known bugs section below)
 
-The program will create a tkinter gui that displays the currently chosen
+- The program will create a tkinter gui that displays the currently chosen
 filename as well as some metadata about the file. From here you can click
 the 'Choose an Input File' button to select a .wav file for input. Then
 click the "Play" button to begin displaying the animation and playing the
@@ -115,7 +115,7 @@ which utilizes the the collapsing nature of the roots of unity to divide
 and conquer what is essentially a matrix multiplication. Numpy's fft (which
 we are using, uses Cooley-Turkey with butterflies).
 
-The fft transforms a signal in the time domain into a signal in the
+- The fft transforms a signal in the time domain into a signal in the
 frequency domain, we are doing a 1024 pt fft, which means our output will be
 half the size (as we're only using real components for input, our output
 would be 1024 bins mirrored in the middle around the Nyquist frequency
@@ -141,7 +141,7 @@ In order to do this, we fft the signal once, then set the 0th bin of the
 output of that fft to 0, then perform an inverse fft on that data,
 reproducing the original signal but without the "DC component".
 
-This can also be done (and is perhaps more intuitive) by averaging the time
+- This can also be done (and is perhaps more intuitive) by averaging the time
 domain data per sample, and subtracting that amount from each value in the
 sample, and while that did work, the effects are more prominent with the
 fft->ifft>fft method (at least in our experience)
@@ -157,15 +157,15 @@ problem we use a window function, there are several at our disposal, but
 currently we are using the Hanning, as it has good side lobe reduction, and
 we are not overly concerned with minor peak spreading.
 
-A window function is basically a curve that "windows" our input (makes it
+- A window function is basically a curve that "windows" our input (makes it
 0 valued everywhere outside of the input, and squishes down the sides so
 they approach 0 at the beginning and end of the interval)
 
-For example, using no window function is equivalent to using a window that
+- For example, using no window function is equivalent to using a window that
 is 0 everywhere except the sample (0-1024). This is sometimes also called
 the uniform window.
 
-We apply the window by multiplying our high pass filtered signal with it,
+- We apply the window by multiplying our high pass filtered signal with it,
 term by term.
 
 ### The "Actual" FFT:
@@ -184,7 +184,7 @@ the definition of the elements of the Hanning window:
 
 		Hanning(n) = 1/2 - 1/2 * cos(n2pi/(N-1)), where N = window size
 
-It's easy to see, as cos moves between -1 and 1, that the average value of
+- It's easy to see, as cos moves between -1 and 1, that the average value of
 those terms is going to be 1/2. So in order to remove that we multiply by
 the reciprocal, 2.*
 
