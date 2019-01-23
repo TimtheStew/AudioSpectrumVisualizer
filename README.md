@@ -72,7 +72,7 @@ audio.
 
 ### Acquiring Dependencies:
 
-OSX------------------OSX---------------------OSX-------------------OSX------
+## for OSX
 - The easiest way would probably be to enter the following commands in the
 terminal:
 
@@ -93,9 +93,9 @@ which does not already have all of this installed, and I have kind of a
 complicated python set up going, and I'm not trying to uninstall it all and
 start over. If all else fails just install xcode, then homebrew, then
 virtual env and then install numpy and tkinter. (that's what I'm using)
-OSX------------------OSX---------------------OSX-------------------OSX------
 
-UBUNTU--------------UBUNTU-------------------UBUNTU-------------UBUNTU------
+
+## for Ubuntu
 "sudo apt-get install python3.6"
 	-install python3
 
@@ -104,7 +104,7 @@ UBUNTU--------------UBUNTU-------------------UBUNTU-------------UBUNTU------
 
 "sudo apt-get install python3-numpy"
 	-install numpy
-UBUNTU--------------UBUNTU-------------------UBUNTU-------------UBUNTU------
+
 
 
 ## FFT Program Operation Description
