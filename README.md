@@ -57,7 +57,7 @@ to hear maybe half of them)
 		- "swiss army knife of audio" - you probably already have it, if not
 					apt-get install sox
 
-## DIRECTIONS:
+## DIRECTIONS
 	### Execution details:
 		- There is one entry point to the program, the python file 'vizwiz.py'. It
 		can be ran from terminal with 'python3 vizwiz.py', call it as 'python3
@@ -107,7 +107,7 @@ to hear maybe half of them)
 		UBUNTU--------------UBUNTU-------------------UBUNTU-------------UBUNTU------
 
 
-## FFT Program Operation Description:
+## FFT Program Operation Description
 	### The Fast Fourier Transform in General:
 		- The fft is an O(nlogn) time complexity algorithm for computing the discrete
 		Fourier transform (the discrete analog of the continous Fourier Transform)
@@ -197,7 +197,7 @@ to hear maybe half of them)
 		20log_10() of that in order to end up with
 
 
-## Display Program Operation Description:
+## Display Program Operation Description
 	### About OpenGL and GLUT/freeGLUT:
 		-On OS X, without homebrew, it's very tricky to install freeGLUT, because of
 		this. Luckily OS X comes with regular GLUT, but its old at this point, as
@@ -235,7 +235,7 @@ to hear maybe half of them)
 		both the array of vertices and colors and turning each cell "on" or "off" by
 		setting it to gray or it's color array value.
 
-## GUI Operation Description:
+## GUI Operation Description
 	- It's an OOP tkinter GUI.It is very simple and tkinter is well documented. I
 	won't go into too much detail about it here. It uses buttons with lamda
 	callback function to register events, and updates it's state accordingly.
@@ -254,7 +254,7 @@ to hear maybe half of them)
 	fft process a small head start.
 
 
-## KNOWN BUGS:
+## KNOWN BUGS
 	### Spaces in .wav Filenames:
 		- as noted above, the wav files cannot contain spaces. I'm pretty sure that
 		its to do with how we are playing back the audio (using a command line
@@ -280,7 +280,7 @@ to hear maybe half of them)
 		isn;t slow) then it crashes instead of exiting gracefully. Unsure why,
 		might be beyond our control.
 
-## TODO/WISHLIST:
+## TODO/WISHLIST
 	### Multiple Overlapped FFT's:
 		- this would help with our time resolution, as well as let us do more
 		precise windowing with asymmetric windows (as long as their overlaps sum
