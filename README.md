@@ -194,7 +194,7 @@ understand. see TODO/WISHLIST > Multiple Overlapped FFT's section below.
 ### Converting to DBFS:
 - To convert to DBFS, we scale the amplitudes back by dividing them by our
 dbfsref constant (32768, the max value on our scale) and then take
-20log_10() of that in order to end up with
+20log_10() of that in order to end up with DBFS
 
 
 ## Display Program Operation Description
